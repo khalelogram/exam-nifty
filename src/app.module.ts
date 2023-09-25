@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { SharedModule } from './shared/shared.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { PaymentsModule } from './payments/payments.module';
 
 
 @Module({
@@ -24,7 +25,7 @@ import { ConfigModule } from '@nestjs/config';
       logging: true
     }),
     UsersModule, 
-    SharedModule],
+    SharedModule, PaymentsModule],
   controllers: [AppController],
   providers: [AppService],
 })
