@@ -1,2 +1,2 @@
 # exam-nifty
- CRUD API Endpoints and Stripe Integration
+CRUD API Endpoints and Stripe Integration
