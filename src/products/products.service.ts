@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import Stripe from 'stripe';
 
 @Injectable()
 export class ProductsService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+
+  private readonly stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-08-16' })
+
+  async create(createProductDto: CreateProductDto) {
+    const newProduct = await this.stripe.products.create({
+      ...createProductDto
+    })
+
+    return newProduct;
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async findAll() {
+    const products = await this.stripe.products.list()
+
+    return products;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: string) {
+    const product = await this.stripe.products.retrieve(id)
+
+    return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: string, body: any) {
+    const updatedProduct = await this.stripe.products.update(id, {
+      ...body
+    })
+
+    return updatedProduct;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: string) {
+    const deleted = await this.stripe.products.del(id)
+
+    return deleted;
   }
 }
